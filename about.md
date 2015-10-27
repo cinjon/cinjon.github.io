@@ -6,7 +6,7 @@ permalink: /about/
 
 Cinjon lives in NYC, SF, and Boston. He works with computers and people.
 
-He is primarily interested in language - reading, writing, learning, and teaching computers to do the same.
+He is interested in language - reading, writing, learning, and teaching computers to do the same.
 
 Some non-fiction and fiction book recommendations:
 
