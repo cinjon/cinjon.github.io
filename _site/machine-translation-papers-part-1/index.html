@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Machine Translation Papers Part 1</title>
+  <meta name="description" content="I’ve been thinking about a novel idea for Machine Translation. Here are a few of the papers I’ve explored to see if it’s been done before.">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://cinjon.com/machine-translation-papers-part-1">
+  <link rel="alternate" type="application/rss+xml" title="Cinjon" href="http://cinjon.com/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Cinjon</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Machine Translation Papers Part 1</h1>
+    <p class="post-meta">Oct 27, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <p>I’ve been thinking about a novel idea for Machine Translation. Here are a few of the papers I’ve explored to see if it’s been done before.</p>
+
+<ol>
+  <li>
+    <p><a href="http://arxiv.org/pdf/1406.1078v3.pdf">Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation</a><sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
+
+    <p>This paper develops a complete RNN encoder - decoder for translating from English to French. It uses this system to rescore hypothesis produced by a phrase-based system.</p>
+
+    <p>While the author has gone on to develop more advanced systems (see below), there are two major takeaways from this paper. The first is how well the RNN encoder-decoder generates a continuous-space representation of phrases. The 1000-dimensional encodings it produces capture both semantic and syntactic structures helpful in translating between languages.</p>
+
+    <p>The second major takeaway is the introduction of the Gated Recurrent Unit (GRU). This is similar to the Long Short Term Memory (LSTM) unit but much simpler and seemingly comparable <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>. It has a reset gate and an update gate. After non-linearities are applied, the hidden state is a linear combination of the those and the input.</p>
+  </li>
+  <li>
+    <p><a href="http://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf">Sequence to Sequence Learning with Neural Networks</a><sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup></p>
+
+    <p>This famous paper references the above work by Cho as well as the below work by Bahdanau. I might be mistaken, but think that this is the first large [successful] result for MT using a deep RNN encoder-decoder. The main result is that they obtained a really good BLEU score (34.8) using an ensemble of five deep models utilizing 384M parameters and an 8,000 dimensional state.</p>
+
+    <p>The main takeaway that I had from this paper was the idea of reversing the source string. They found that this was extremely valuable. It makes intuitive sense because now if the source string is <code>a,b,c,d</code> and the target string is <code>t,u,v,w</code>, then it’s highly likely that we would want to associate <code>a</code> with <code>t</code>. By encoding that <code>a</code> last, it has the highest contribution to the encoding. When the decoder starts reading, it is most likely to associate the two correctly.</p>
+
+    <p>Their hypothesis for this phenomenon is on page 4:</p>
+
+    <blockquote>
+      <p>… Normally, when we concatenate a source sentence with a target sentence, each word in the source sentence is far from its corresponding word in the target sentence. As a result, the problem has a large “minimal time lag”<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>. By reversing the words in the source sentence, the average distance between corresponding words in the source and target language is unchanged. However, the first few words in the source language are now very close to the first few words in the target language, so the problem’s minimal time lag is greatly reduced. Thus, backpropagation has an easier time “establishing communication” between the source sentence and the target sentence…</p>
+    </blockquote>
+
+    <p>A couple of other notes here were that they found that deep LSTM models worked much better than shallow ones. This isn’t too surprising and they reported results using four layers. The training time was surprising though. They had to parallelize the algorithm over an 8-GPU architecture with each of the four LSTM layers on a different GPU and then the remaining four used solely for running softmax calculations. This resulted in a speed of 6,300 words per second for a training time of ten days.</p>
+  </li>
+  <li>
+    <p><a href="http://arxiv.org/abs/1409.0473">Neural Machine Translation by Jointly Learning to Align and Translate</a><sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup></p>
+
+    <p>This paper was birthed from the work above by Cho (and he’s a co-author on this one). They conjectured that a bottleneck in getting the encoder-decoder systems to work better is in the encoding being a fixed length vector. The input, a sentence, is of variable length. So is the output (another sentence). To get from one to the other, most systems encode the variable-length sequence of words into a fixed length vector and then decode them into the variable-length output. They hypothesized that this caused earlier systems to underperform on longer sentences<sup id="fnref:6"><a href="#fn:6" class="footnote">6</a></sup>.</p>
+
+    <p>Their way to get around that is to utilize an <em>attention</em> model. This has tremendous success jointly learning to translate and align the words correctly. How?</p>
+
+    <p>It works by having a bi-directional RNN for the encoder. The forward direction computes a sentence vector as usual (using GRUs). There is another backwards direction that does the same but in reverse. However, there isn’t just one of each - there is a pair for every word in the sentence. For an <code>N</code>-length sentence, we’ll have <code>N</code> pairs of these vectors. The <code>jth</code> forward direction vector is the result of the running the forward RNN up to and including the <code>jth</code> word. Similarly, the corresponding <code>jth</code> backward direction vector is the result of running the backward RNN up to and including the <code>jth</code> word. Each of these pairs are concatenated together and called an Annotation. Think of them as being a summary of the preceding and following words, focused on the nearby words.</p>
+
+    <p>Now the decoder takes these Annotations as input. It then needs to decide which Annotation to <em>pay attention to.</em> It does this by computing a probability for each Annotation where the input is influenced by an alignment model which scores how well the inputs around each position and the output at the specified position match. This feed-forward neural network is jointly trained with the whole system.</p>
+  </li>
+</ol>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Cho et al, Universite de Montreal <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>A later <a href="http://arxiv.org/abs/1412.3555">paper</a> by Chung et al suggests this. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>Sutskever et al, Google <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>S. Hochreiter and J. Schmidhuber: <a href="http://papers.nips.cc/paper/1215-lstm-can-solve-hard-long-time-lag-problems.pdf">LSTM can solve hard long time lag problems</a> <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p>Bahdanau et al, Jacobs University Bremen <a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:6">
+      <p>Cho et al, <a href="http://arxiv.org/abs/1409.1259">On the Properties of Neural Machine Translation: Encoder-Decoder Approaches</a> <a href="#fnref:6" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          
+          <li>
+            <a href="https://github.com/cinjon">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">cinjon</span>
+            </a>
+          </li>
+          
+          <li><a href="mailto:cinjon@alum.mit.edu">cinjon@alum.mit.edu</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

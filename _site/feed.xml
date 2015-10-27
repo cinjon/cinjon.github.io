@@ -6,8 +6,8 @@
 </description>
     <link>http://cinjon.com/</link>
     <atom:link href="http://cinjon.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 27 Oct 2015 11:57:51 -0400</pubDate>
-    <lastBuildDate>Tue, 27 Oct 2015 11:57:51 -0400</lastBuildDate>
+    <pubDate>Tue, 27 Oct 2015 13:45:53 -0400</pubDate>
+    <lastBuildDate>Tue, 27 Oct 2015 13:45:53 -0400</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -47,6 +47,80 @@
         <guid isPermaLink="true">http://cinjon.com/the-rules-of-the-game</guid>
         
         <category>ai,rules,grammer</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Machine Translation Papers Part 1</title>
+        <description>&lt;p&gt;I’ve been thinking about a novel idea for Machine Translation. Here are a few of the papers I’ve explored to see if it’s been done before.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://arxiv.org/pdf/1406.1078v3.pdf&quot;&gt;Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation&lt;/a&gt;&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+    &lt;p&gt;This paper develops a complete RNN encoder - decoder for translating from English to French. It uses this system to rescore hypothesis produced by a phrase-based system.&lt;/p&gt;
+
+    &lt;p&gt;While the author has gone on to develop more advanced systems (see below), there are two major takeaways from this paper. The first is how well the RNN encoder-decoder generates a continuous-space representation of phrases. The 1000-dimensional encodings it produces capture both semantic and syntactic structures helpful in translating between languages.&lt;/p&gt;
+
+    &lt;p&gt;The second major takeaway is the introduction of the Gated Recurrent Unit (GRU). This is similar to the Long Short Term Memory (LSTM) unit but much simpler and seemingly comparable &lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. It has a reset gate and an update gate. After non-linearities are applied, the hidden state is a linear combination of the those and the input.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf&quot;&gt;Sequence to Sequence Learning with Neural Networks&lt;/a&gt;&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+    &lt;p&gt;This famous paper references the above work by Cho as well as the below work by Bahdanau. I might be mistaken, but think that this is the first large [successful] result for MT using a deep RNN encoder-decoder. The main result is that they obtained a really good BLEU score (34.8) using an ensemble of five deep models utilizing 384M parameters and an 8,000 dimensional state.&lt;/p&gt;
+
+    &lt;p&gt;The main takeaway that I had from this paper was the idea of reversing the source string. They found that this was extremely valuable. It makes intuitive sense because now if the source string is &lt;code&gt;a,b,c,d&lt;/code&gt; and the target string is &lt;code&gt;t,u,v,w&lt;/code&gt;, then it’s highly likely that we would want to associate &lt;code&gt;a&lt;/code&gt; with &lt;code&gt;t&lt;/code&gt;. By encoding that &lt;code&gt;a&lt;/code&gt; last, it has the highest contribution to the encoding. When the decoder starts reading, it is most likely to associate the two correctly.&lt;/p&gt;
+
+    &lt;p&gt;Their hypothesis for this phenomenon is on page 4:&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;… Normally, when we concatenate a source sentence with a target sentence, each word in the source sentence is far from its corresponding word in the target sentence. As a result, the problem has a large “minimal time lag”&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. By reversing the words in the source sentence, the average distance between corresponding words in the source and target language is unchanged. However, the first few words in the source language are now very close to the first few words in the target language, so the problem’s minimal time lag is greatly reduced. Thus, backpropagation has an easier time “establishing communication” between the source sentence and the target sentence…&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;A couple of other notes here were that they found that deep LSTM models worked much better than shallow ones. This isn’t too surprising and they reported results using four layers. The training time was surprising though. They had to parallelize the algorithm over an 8-GPU architecture with each of the four LSTM layers on a different GPU and then the remaining four used solely for running softmax calculations. This resulted in a speed of 6,300 words per second for a training time of ten days.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://arxiv.org/abs/1409.0473&quot;&gt;Neural Machine Translation by Jointly Learning to Align and Translate&lt;/a&gt;&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+    &lt;p&gt;This paper was birthed from the work above by Cho (and he’s a co-author on this one). They conjectured that a bottleneck in getting the encoder-decoder systems to work better is in the encoding being a fixed length vector. The input, a sentence, is of variable length. So is the output (another sentence). To get from one to the other, most systems encode the variable-length sequence of words into a fixed length vector and then decode them into the variable-length output. They hypothesized that this caused earlier systems to underperform on longer sentences&lt;sup id=&quot;fnref:6&quot;&gt;&lt;a href=&quot;#fn:6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+    &lt;p&gt;Their way to get around that is to utilize an &lt;em&gt;attention&lt;/em&gt; model. This has tremendous success jointly learning to translate and align the words correctly. How?&lt;/p&gt;
+
+    &lt;p&gt;It works by having a bi-directional RNN for the encoder. The forward direction computes a sentence vector as usual (using GRUs). There is another backwards direction that does the same but in reverse. However, there isn’t just one of each - there is a pair for every word in the sentence. For an &lt;code&gt;N&lt;/code&gt;-length sentence, we’ll have &lt;code&gt;N&lt;/code&gt; pairs of these vectors. The &lt;code&gt;jth&lt;/code&gt; forward direction vector is the result of the running the forward RNN up to and including the &lt;code&gt;jth&lt;/code&gt; word. Similarly, the corresponding &lt;code&gt;jth&lt;/code&gt; backward direction vector is the result of running the backward RNN up to and including the &lt;code&gt;jth&lt;/code&gt; word. Each of these pairs are concatenated together and called an Annotation. Think of them as being a summary of the preceding and following words, focused on the nearby words.&lt;/p&gt;
+
+    &lt;p&gt;Now the decoder takes these Annotations as input. It then needs to decide which Annotation to &lt;em&gt;pay attention to.&lt;/em&gt; It does this by computing a probability for each Annotation where the input is influenced by an alignment model which scores how well the inputs around each position and the output at the specified position match. This feed-forward neural network is jointly trained with the whole system.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;Cho et al, Universite de Montreal &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;A later &lt;a href=&quot;http://arxiv.org/abs/1412.3555&quot;&gt;paper&lt;/a&gt; by Chung et al suggests this. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;Sutskever et al, Google &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;S. Hochreiter and J. Schmidhuber: &lt;a href=&quot;http://papers.nips.cc/paper/1215-lstm-can-solve-hard-long-time-lag-problems.pdf&quot;&gt;LSTM can solve hard long time lag problems&lt;/a&gt; &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
+      &lt;p&gt;Bahdanau et al, Jacobs University Bremen &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:6&quot;&gt;
+      &lt;p&gt;Cho et al, &lt;a href=&quot;http://arxiv.org/abs/1409.1259&quot;&gt;On the Properties of Neural Machine Translation: Encoder-Decoder Approaches&lt;/a&gt; &lt;a href=&quot;#fnref:6&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Tue, 27 Oct 2015 00:00:00 -0400</pubDate>
+        <link>http://cinjon.com/machine-translation-papers-part-1</link>
+        <guid isPermaLink="true">http://cinjon.com/machine-translation-papers-part-1</guid>
+        
+        <category>machine-translation,papers</category>
         
         
       </item>
