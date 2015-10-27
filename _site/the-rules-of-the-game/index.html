@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The Rules of the Game</title>
+  <meta name="description" content="Here’s an idea.">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://cinjon.com/the-rules-of-the-game">
+  <link rel="alternate" type="application/rss+xml" title="Cinjon" href="http://cinjon.com/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Cinjon</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">The Rules of the Game</h1>
+    <p class="post-meta">Oct 27, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <p>Here’s an idea.</p>
+
+<p>Let’s say you have lots of games of chess written in traditional notation. Now simulate those games and pipe the pixels into an [unsupervised] AI. The goal is not to learn how to beat the best players but just to learn how to play the game well enough to explain it to another.</p>
+
+<p>In a way, this is like a child watching people play and figuring out all the rules. This is harder for a number of reasons. Two of which are that you have just the board and no language communication. And that’s assuming that we’ve previously taught the AI what are squares, pieces, and the notion of a 1-1 game.</p>
+
+<p>How would you do this? Has it been done? There is a famous <a href="https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf">paper</a> by the team at DeepMind exploring how to train computers to beat Atari games. For each game, the AI was given video pixel input, the controls, and the rewards / losses (no different than the input and output humans get). With no human-assisted feature selection at all, the system did astonighsly well and surpassed a human expert for three out of the seven games played.</p>
+
+<p>What I’m prorposing is different. With the Atari games, the machine didn’t have to explain to someone else what it was doing. It just needed to get a better score. Another way to put it is that it couldn’t now go and teach another how to play any of these games. How could it? It doesn’t even have the means to communicate except through play.</p>
+
+<p>Returning to chess, what is a way to test if someone understands the rules? If it was a kid, we’d ask her to explain how pieces move, how the game is set up, and what ends the game. Once we’d established that, we’d play a game or two to see if she understood everything in combination.</p>
+
+<p>Is it sufficient to just play the game? No. That’s no different than writing a textbook by combining words in a correct grammatical structure. It’s very hard to train machines to do that correctly but we’re getting very good today at teaching computers to pull this off without them being able to teach the rules of grammar<sup id="fnref:n"><a href="#fn:n" class="footnote">1</a></sup>.</p>
+
+<p>There are tests that seem good but break down. One is to leave out some possibilities for pieces and see if the computer picks it up. Say it never sees a rook moving from its original space to the opposite end of its base. How would it know that it could do that? It would be strange to think that it couldn’t if it understood that rooks move in a horizontal fashion and can go up to any number of spaces. And yet it would be strange to think it <em>could</em> do that given that it has no probabilistic basis for that move. It would be similar to saying that the rook can jump over another one. It happens often enough with another piece (the knight) that that might be in the space of possibilities.</p>
+
+<p>This might be too unnatural and hard. We as humans don’t even do this - we use language to help guide how we learn games. DeepMind gave the equivalent of the piece movements to the AI (the controls). We could do that. We could also describe the space of moves - horizontal / vertical / diagonal / L-shaped.</p>
+
+<p>I’d be much more interested in imbuing a system with some faculties for asking questions. Then, when it found out a rook could move five spaces horizontally, it could ask us, “can this piece move six spaces as well?”</p>
+
+<p>That would be interesting.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:n">
+      <p>This is a non-trivial requirement on the machine. K-12 schools in America don’t even require that students know grammar well enough to teach it to others. They just need to pass tests that determine they grasp the faculties. These tests are often times multiple choice but also written. Training a computer to perform well on that is much easier than what I’m suggesting. <a href="#fnref:n" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          
+          <li>
+            <a href="https://github.com/cinjon">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">cinjon</span>
+            </a>
+          </li>
+          
+          <li><a href="mailto:cinjon@alum.mit.edu">cinjon@alum.mit.edu</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
