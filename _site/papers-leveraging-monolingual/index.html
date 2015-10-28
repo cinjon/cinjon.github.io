@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Papers Leveraging Monolingual Corpora</title>
+  <meta name="description" content="">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://cinjon.com/papers-leveraging-monolingual">
+  <link rel="alternate" type="application/rss+xml" title="Cinjon" href="http://cinjon.com/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Cinjon</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Papers Leveraging Monolingual Corpora</h1>
+    <p class="post-meta">Oct 28, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <link rel="stylesheet" href="/public/katex.min.css" />
+
+<script src="/public/katex.min.js"></script>
+
+<style>
+  .MathJax_Preview { color: #888 }
+  .math_finished .MathJax_Preview { display: none }
+</style>
+
+<p>Here’s another set of papers! These ones are all about utilizing the tremendous amount of monolingual corpora out there. One of my interests here is in applying them to aid our comprehension across languages.</p>
+
+<ol>
+  <li>
+    <p><a href="http://arxiv.org/abs/1504.07225">Correlational Neural Networks</a><sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
+
+    <p>Common Representation Learning is the task of embedding different descriptions of data into a common subspace. An example is two sentences in different languages that mean the same thing. It would be good to reliably be able to associate one with the other without explicitly telling a machine that, for example, “cats” and “dogs” are alike.</p>
+
+    <p>This paper does this a deep autoencoder model with a well-considered objective function. It then applies this model to tasks like cross-language document classification where a document is represented by the tf-idf sum of its bag of words representation. Here’s the objective function it’s trying to minimize:</p>
+
+    <p><br /></p>
+
+    <script type="math/tex; mode=display">\displaystyle J(\theta) = \sum_{i=1}^N L(z_i, g(h(z_i)))+L(z_i, g(h(x_i)))+L(z_i, g(h(y_i)))-\lambda corr(h(X), h(Y))</script>
+
+    <script type="math/tex; mode=display">\displaystyle corr(h(X), h(Y))=\frac{\sum_{i=1}^N (h(x_i) - \overline{h(X)})(h(y_i) - \overline{h(Y)})}{\sqrt{\sum_{i=1}^N (h(x_i) - \overline{h(X)})^2 \sum_{i=1}^N (h(y_i) - \overline{h(Y)})^2}}</script>
+
+    <p><br /></p>
+
+    <p>Above, <code>L</code> is the reconstruction loss. They use cross-entropy error if the input takes binary values and squared error loss otherwise. <code>z_i</code> is the paired inputs from the different descriptions (sentences), <code>(x_i, y_i)</code>, and <code>h(z) = f(Wx + Vy + b)</code>, where <code>f</code> is a non-linear activation function. <code>W</code> and <code>V</code> are the learned projection matrices for the different descriptions, and <code>b</code> is a learned bias vector. Then <code>z' = g([W'h(z), V'h(z)] + b')</code> is the reconstruction that we compare to <code>z</code> while learning reconstruction matrices <code>W'</code>, <code>V'</code>, and <code>b'</code>. Function <code>g</code> is any activation function. Note that <code>[a, b]</code> is the concatenation of vectors <code>a</code> and <code>b</code>.</p>
+
+    <p>The sum is made of four parts. The first part, <code>L(z_i, g(h(z_i)))</code>, teaches the autoencoder to reconstruct its input (both languages). The second and third terms train it to reconstruct the input from just one description. So, if we are training on French and English, it must learn to output the French language with just the English sentence. These three together imply that the model learns to embed the sentences in the same vector space. The fourth term maximizes the correlation between the vector embeddings of similar sentences across languages. This constrains the vectors in different languages to be close to each other. Pretty slick addition.</p>
+
+    <p>An important note is that the inputs are sentence-level binary bags of words. This means that word order is not taken into effect and changing this to include word order would be a reasonable next thing to try.</p>
+
+    <p>Overall, I really like this idea. It’s simple but makes sense and the results suggest that it’s working well for document classification. They are able to assemble deep models and can scale up the language representation with lots of monolingual data without compromising the model.</p>
+  </li>
+  <li>
+    <p><a href="http://arxiv.org/abs/1412.6334">Leveraging Monolingual Data for Crosslingual Compositional Word Representations</a><sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup></p>
+
+    <p>A couple of months before the above paper, this one achieved even better results on document classification with a different method and a slightly different objective.</p>
+
+    <p>The goals are similar. Can a single method:</p>
+
+    <ul>
+      <li>
+        <p>Contrain the word-level representations to be compositional?</p>
+      </li>
+      <li>
+        <p>Leverage both monolingual and bilingual data.</p>
+      </li>
+      <li>
+        <p>Scale to large vocabulary sizes without greatly impacting time.</p>
+      </li>
+    </ul>
+
+    <p>While very favorable towards the [Chandar et al] paper, they describe a deficiency:</p>
+
+    <blockquote>
+      <p>[Chandar et al]’s method represents each sentence as a bag of words vector with the size of the whole vocabulary. This leads to computational scaling issues and necessitates a vocabulary cut-off which may hamper performance for compounding languages such as German.</p>
+    </blockquote>
+
+    <p>Accordingly, their neural network representing sentences as an addition composition over word vectors can be trained on seven million sentences in under six hours on a single core CPU. They did show a composition function using bigrams to somewhat consider word order, but left it as future work:</p>
+
+    <blockquote>
+      <p>To increase the expressiveness of our method we plan to investigate more complex composition functions, possibly based on convolution to preserve word order information.</p>
+    </blockquote>
+
+    <p>I mentioned a different objective as well. Here it is:</p>
+
+    <p><br /></p>
+
+    <script type="math/tex; mode=display">\displaystyle L_{total} = \sum_{i=1}^{N_{bi}} L_{bi}(v_{i}^{l_1}, v_{i}^{l_2}) + \sum_{i=1}^{N_{mono_1}} L_{mono}(x_{i}^{l_1}) + \sum_{i=1}^{N_{mono_2}} L_{mono}(y_{i}^{l_2}) + \lambda||\theta||^2</script>
+
+    <p><br /></p>
+
+    <p>The first term is the bilingual objective. It’s calculated by taking aligned sentences, computing their vector representation with the composition function, and then minimizing the squared euclidean distance between them:</p>
+
+    <p><br /></p>
+
+    <script type="math/tex; mode=display">\displaystyle L_{bi}(v_i^{l_1},v_i^{l_2}) = ||v_{i}^{l_1} - v{i}^{l_2}||^2</script>
+
+    <p><br /></p>
+
+    <p>The monolingual objective is very different. It’s based on a notion that phrases are more similar to their sub-phrases than to randomly sampled phrases. For example, if the phrase is <code>My friend went to the park after getting ready,</code> then the sub-phrase <code>went to the park</code> is more relevant than <code>took a shower.</code> Given a large enough monolingual corpus, another plausible sub-phrase like <code>went to the movies</code> would also appear and be embedded close to the larger phrase. This would consequently embed it close to <code>went to the park.</code> Here is the loss function that achieves this:</p>
+
+    <p><br /></p>
+
+    <script type="math/tex; mode=display">\displaystyle L_{mono}(a)=[max(0, m + ||a_c^{outer} - a_c^{inner}||^2 - ||a_c^{outer} - b_c^{noise}||^2) + ||a_c^{outer} - a_c^{inner}||^2] \frac{len(a^{inner})}{len(a^{outer})}</script>
+
+    <p><br /></p>
+
+    <p>Above, <code>m</code> is a margin, the <code>outer a</code> is a phrase sampled from a sentence, the <code>inner a</code> is a sub-phrase of the outer, and the <code>noise b</code> is a phrase extracted from a sentence uniformly sampled from the corpus. All extracted phrases have length larger than three.</p>
+  </li>
+  <li>
+    <p><a href="http://arxiv.org/pdf/1506.06726v1.pdf">Skip-Thought Vectors</a><sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup></p>
+
+    <p>This work was inspired by Mikolov et al’s <a href="http://arxiv.org/pdf/1301.3781.pdf">paper</a><sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> in 2013. It abstracts the skip-gram model for word embeddings to the sentence-level. The result are generic sentence representations that perform robustly across a wide variety of tasks, including semantic relatedness, paraphrase detection, image-sentence ranking, and classification.</p>
+
+    <p>How does it induce the vectors? Take a large corpus of contiguous sentences (e.g. books). For each consecutive sentence tuple <code>(x, y, z)</code>, use an RNN with GRUs to encode the midde sentence, <code>y</code>. Now use an RNN (with GRU) to decode this encoding and try to predict <code>x</code>, the sentence before. Do the same thing with another decoder for predicting <code>z</code>, the sentence after. These two decoders have separate weight matrices but share the weight matrix for the vocabulary.</p>
+
+    <p>The objective function is the sum of the log-probabilities of the previous and next sentences conditioned on the encoder representation:</p>
+
+    <p><br /></p>
+
+    <script type="math/tex; mode=display">\displaystyle \sum_{t} \log (P(w_{i-1}^t | w_{i-1}^{\le t-1}, h_i)) + \sum_{t} \log (P(w_{i+1}^t | w_{i+1}^{\le t-1}, h_i))</script>
+
+    <p><br /></p>
+
+    <p>Another nice takeaway from this paper was that they were able to expand the vocabulary for the language model from 20k words to 930k words using pre-trained word2vec representations. This was done by first developing the RNN as above and then finding a linear mapping matrix <code>W</code> where <code>v' ~ Wv</code> for <code>v</code> in the word2vec vocabulary and <code>v'</code> in the RNN vocabulary. Now any word represented in word2vec can also be mapped to the RNN.</p>
+  </li>
+</ol>
+
+<p><br /><br /><br /></p>
+
+<script>
+  var scripts = document.getElementsByTagName("script");
+  for (var i = 0; i < scripts.length; i++) {
+    var script = scripts[i];
+    if (script.type.match(/^math\/tex/)) {
+      var text = script.text === "" ? script.innerHTML : script.text;
+      var options = script.type.match(/mode\s*=\s*display/) ? {displayMode: true} : {};
+      script.insertAdjacentHTML("beforebegin",
+                                katex.renderToString(text, options));
+    }
+  }
+  document.body.className += " math_finished";
+</script>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Chandar et al, University of Montreal <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Soyer et al, National Institute of Informatics, Tokyo, Japan <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>Kiros et al, University of Toronto <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>Google, Efficient Estimation of Word Representations in Vector Space <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          
+          <li>
+            <a href="https://github.com/cinjon">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">cinjon</span>
+            </a>
+          </li>
+          
+          <li><a href="mailto:cinjon@alum.mit.edu">cinjon@alum.mit.edu</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

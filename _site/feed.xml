@@ -6,12 +6,167 @@
 </description>
     <link>http://cinjon.com/</link>
     <atom:link href="http://cinjon.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 27 Oct 2015 16:39:02 -0400</pubDate>
-    <lastBuildDate>Tue, 27 Oct 2015 16:39:02 -0400</lastBuildDate>
+    <pubDate>Wed, 28 Oct 2015 19:04:22 -0400</pubDate>
+    <lastBuildDate>Wed, 28 Oct 2015 19:04:22 -0400</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
-        <title>Machine Translation Papers Part 1</title>
+        <title>Papers Leveraging Monolingual Corpora</title>
+        <description>&lt;link rel=&quot;stylesheet&quot; href=&quot;/public/katex.min.css&quot; /&gt;
+
+&lt;script src=&quot;/public/katex.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;style&gt;
+  .MathJax_Preview { color: #888 }
+  .math_finished .MathJax_Preview { display: none }
+&lt;/style&gt;
+
+&lt;p&gt;Here’s another set of papers! These ones are all about utilizing the tremendous amount of monolingual corpora out there. One of my interests here is in applying them to aid our comprehension across languages.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://arxiv.org/abs/1504.07225&quot;&gt;Correlational Neural Networks&lt;/a&gt;&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+    &lt;p&gt;Common Representation Learning is the task of embedding different descriptions of data into a common subspace. An example is two sentences in different languages that mean the same thing. It would be good to reliably be able to associate one with the other without explicitly telling a machine that, for example, “cats” and “dogs” are alike.&lt;/p&gt;
+
+    &lt;p&gt;This paper does this a deep autoencoder model with a well-considered objective function. It then applies this model to tasks like cross-language document classification where a document is represented by the tf-idf sum of its bag of words representation. Here’s the objective function it’s trying to minimize:&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\displaystyle J(\theta) = \sum_{i=1}^N L(z_i, g(h(z_i)))+L(z_i, g(h(x_i)))+L(z_i, g(h(y_i)))-\lambda corr(h(X), h(Y))&lt;/script&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\displaystyle corr(h(X), h(Y))=\frac{\sum_{i=1}^N (h(x_i) - \overline{h(X)})(h(y_i) - \overline{h(Y)})}{\sqrt{\sum_{i=1}^N (h(x_i) - \overline{h(X)})^2 \sum_{i=1}^N (h(y_i) - \overline{h(Y)})^2}}&lt;/script&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;p&gt;Above, &lt;code&gt;L&lt;/code&gt; is the reconstruction loss. They use cross-entropy error if the input takes binary values and squared error loss otherwise. &lt;code&gt;z_i&lt;/code&gt; is the paired inputs from the different descriptions (sentences), &lt;code&gt;(x_i, y_i)&lt;/code&gt;, and &lt;code&gt;h(z) = f(Wx + Vy + b)&lt;/code&gt;, where &lt;code&gt;f&lt;/code&gt; is a non-linear activation function. &lt;code&gt;W&lt;/code&gt; and &lt;code&gt;V&lt;/code&gt; are the learned projection matrices for the different descriptions, and &lt;code&gt;b&lt;/code&gt; is a learned bias vector. Then &lt;code&gt;z&#39; = g([W&#39;h(z), V&#39;h(z)] + b&#39;)&lt;/code&gt; is the reconstruction that we compare to &lt;code&gt;z&lt;/code&gt; while learning reconstruction matrices &lt;code&gt;W&#39;&lt;/code&gt;, &lt;code&gt;V&#39;&lt;/code&gt;, and &lt;code&gt;b&#39;&lt;/code&gt;. Function &lt;code&gt;g&lt;/code&gt; is any activation function. Note that &lt;code&gt;[a, b]&lt;/code&gt; is the concatenation of vectors &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
+
+    &lt;p&gt;The sum is made of four parts. The first part, &lt;code&gt;L(z_i, g(h(z_i)))&lt;/code&gt;, teaches the autoencoder to reconstruct its input (both languages). The second and third terms train it to reconstruct the input from just one description. So, if we are training on French and English, it must learn to output the French language with just the English sentence. These three together imply that the model learns to embed the sentences in the same vector space. The fourth term maximizes the correlation between the vector embeddings of similar sentences across languages. This constrains the vectors in different languages to be close to each other. Pretty slick addition.&lt;/p&gt;
+
+    &lt;p&gt;An important note is that the inputs are sentence-level binary bags of words. This means that word order is not taken into effect and changing this to include word order would be a reasonable next thing to try.&lt;/p&gt;
+
+    &lt;p&gt;Overall, I really like this idea. It’s simple but makes sense and the results suggest that it’s working well for document classification. They are able to assemble deep models and can scale up the language representation with lots of monolingual data without compromising the model.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://arxiv.org/abs/1412.6334&quot;&gt;Leveraging Monolingual Data for Crosslingual Compositional Word Representations&lt;/a&gt;&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+    &lt;p&gt;A couple of months before the above paper, this one achieved even better results on document classification with a different method and a slightly different objective.&lt;/p&gt;
+
+    &lt;p&gt;The goals are similar. Can a single method:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;Contrain the word-level representations to be compositional?&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Leverage both monolingual and bilingual data.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Scale to large vocabulary sizes without greatly impacting time.&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;While very favorable towards the [Chandar et al] paper, they describe a deficiency:&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;[Chandar et al]’s method represents each sentence as a bag of words vector with the size of the whole vocabulary. This leads to computational scaling issues and necessitates a vocabulary cut-off which may hamper performance for compounding languages such as German.&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;Accordingly, their neural network representing sentences as an addition composition over word vectors can be trained on seven million sentences in under six hours on a single core CPU. They did show a composition function using bigrams to somewhat consider word order, but left it as future work:&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;To increase the expressiveness of our method we plan to investigate more complex composition functions, possibly based on convolution to preserve word order information.&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;I mentioned a different objective as well. Here it is:&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\displaystyle L_{total} = \sum_{i=1}^{N_{bi}} L_{bi}(v_{i}^{l_1}, v_{i}^{l_2}) + \sum_{i=1}^{N_{mono_1}} L_{mono}(x_{i}^{l_1}) + \sum_{i=1}^{N_{mono_2}} L_{mono}(y_{i}^{l_2}) + \lambda||\theta||^2&lt;/script&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;p&gt;The first term is the bilingual objective. It’s calculated by taking aligned sentences, computing their vector representation with the composition function, and then minimizing the squared euclidean distance between them:&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\displaystyle L_{bi}(v_i^{l_1},v_i^{l_2}) = ||v_{i}^{l_1} - v{i}^{l_2}||^2&lt;/script&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;p&gt;The monolingual objective is very different. It’s based on a notion that phrases are more similar to their sub-phrases than to randomly sampled phrases. For example, if the phrase is &lt;code&gt;My friend went to the park after getting ready,&lt;/code&gt; then the sub-phrase &lt;code&gt;went to the park&lt;/code&gt; is more relevant than &lt;code&gt;took a shower.&lt;/code&gt; Given a large enough monolingual corpus, another plausible sub-phrase like &lt;code&gt;went to the movies&lt;/code&gt; would also appear and be embedded close to the larger phrase. This would consequently embed it close to &lt;code&gt;went to the park.&lt;/code&gt; Here is the loss function that achieves this:&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\displaystyle L_{mono}(a)=[max(0, m + ||a_c^{outer} - a_c^{inner}||^2 - ||a_c^{outer} - b_c^{noise}||^2) + ||a_c^{outer} - a_c^{inner}||^2] \frac{len(a^{inner})}{len(a^{outer})}&lt;/script&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;p&gt;Above, &lt;code&gt;m&lt;/code&gt; is a margin, the &lt;code&gt;outer a&lt;/code&gt; is a phrase sampled from a sentence, the &lt;code&gt;inner a&lt;/code&gt; is a sub-phrase of the outer, and the &lt;code&gt;noise b&lt;/code&gt; is a phrase extracted from a sentence uniformly sampled from the corpus. All extracted phrases have length larger than three.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://arxiv.org/pdf/1506.06726v1.pdf&quot;&gt;Skip-Thought Vectors&lt;/a&gt;&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+    &lt;p&gt;This work was inspired by Mikolov et al’s &lt;a href=&quot;http://arxiv.org/pdf/1301.3781.pdf&quot;&gt;paper&lt;/a&gt;&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; in 2013. It abstracts the skip-gram model for word embeddings to the sentence-level. The result are generic sentence representations that perform robustly across a wide variety of tasks, including semantic relatedness, paraphrase detection, image-sentence ranking, and classification.&lt;/p&gt;
+
+    &lt;p&gt;How does it induce the vectors? Take a large corpus of contiguous sentences (e.g. books). For each consecutive sentence tuple &lt;code&gt;(x, y, z)&lt;/code&gt;, use an RNN with GRUs to encode the midde sentence, &lt;code&gt;y&lt;/code&gt;. Now use an RNN (with GRU) to decode this encoding and try to predict &lt;code&gt;x&lt;/code&gt;, the sentence before. Do the same thing with another decoder for predicting &lt;code&gt;z&lt;/code&gt;, the sentence after. These two decoders have separate weight matrices but share the weight matrix for the vocabulary.&lt;/p&gt;
+
+    &lt;p&gt;The objective function is the sum of the log-probabilities of the previous and next sentences conditioned on the encoder representation:&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\displaystyle \sum_{t} \log (P(w_{i-1}^t | w_{i-1}^{\le t-1}, h_i)) + \sum_{t} \log (P(w_{i+1}^t | w_{i+1}^{\le t-1}, h_i))&lt;/script&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;p&gt;Another nice takeaway from this paper was that they were able to expand the vocabulary for the language model from 20k words to 930k words using pre-trained word2vec representations. This was done by first developing the RNN as above and then finding a linear mapping matrix &lt;code&gt;W&lt;/code&gt; where &lt;code&gt;v&#39; ~ Wv&lt;/code&gt; for &lt;code&gt;v&lt;/code&gt; in the word2vec vocabulary and &lt;code&gt;v&#39;&lt;/code&gt; in the RNN vocabulary. Now any word represented in word2vec can also be mapped to the RNN.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;script&gt;
+  var scripts = document.getElementsByTagName(&quot;script&quot;);
+  for (var i = 0; i &lt; scripts.length; i++) {
+    var script = scripts[i];
+    if (script.type.match(/^math\/tex/)) {
+      var text = script.text === &quot;&quot; ? script.innerHTML : script.text;
+      var options = script.type.match(/mode\s*=\s*display/) ? {displayMode: true} : {};
+      script.insertAdjacentHTML(&quot;beforebegin&quot;,
+                                katex.renderToString(text, options));
+    }
+  }
+  document.body.className += &quot; math_finished&quot;;
+&lt;/script&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;Chandar et al, University of Montreal &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;Soyer et al, National Institute of Informatics, Tokyo, Japan &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;Kiros et al, University of Toronto &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;Google, Efficient Estimation of Word Representations in Vector Space &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Wed, 28 Oct 2015 00:00:00 -0400</pubDate>
+        <link>http://cinjon.com/papers-leveraging-monolingual</link>
+        <guid isPermaLink="true">http://cinjon.com/papers-leveraging-monolingual</guid>
+        
+        <category>language-models,papers</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Three Machine Translation Papers</title>
         <description>&lt;p&gt;I’ve been thinking recently about a novel way to do Machine Translation. Here are a few of the papers I’ve explored to see if it’s been done before.&lt;/p&gt;
 
 &lt;ol&gt;
@@ -78,8 +233,8 @@
 &lt;/div&gt;
 </description>
         <pubDate>Tue, 27 Oct 2015 00:00:00 -0400</pubDate>
-        <link>http://cinjon.com/machine-translation-papers-part-1</link>
-        <guid isPermaLink="true">http://cinjon.com/machine-translation-papers-part-1</guid>
+        <link>http://cinjon.com/three-machine-translation-papers</link>
+        <guid isPermaLink="true">http://cinjon.com/three-machine-translation-papers</guid>
         
         <category>machine-translation,papers</category>
         

@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Machine Translation Papers Part 1
-permalink: machine-translation-papers-part-1
+title: Three Machine Translation Papers
+permalink: three-machine-translation-papers
 tags: machine-translation,papers
 ---
 
