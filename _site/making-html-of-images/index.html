@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Making Html of Images</title>
+  <meta name="description" content="Here’s an idea.">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://cinjon.com/making-html-of-images">
+  <link rel="alternate" type="application/rss+xml" title="Cinjon" href="http://cinjon.com/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Cinjon</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Making Html of Images</h1>
+    <p class="post-meta">Nov 9, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <p>Here’s an idea.</p>
+
+<p>Let’s say you have lots of PDFs and you want to manipulate them. Some example tasks:</p>
+
+<ul>
+  <li>
+    <p><b>Extract table data</b>:</p>
+
+    <p>PDFs frequently have tabular information. Sometimes, this is explicit where the tables are delineated with lines. Other times, it is implicit like in a table of contents. Regardless, it isn’t easy to get this information. There are a number of libraries that try. The best open source one I’ve found is <a href="http://www.tabula.technology">Tabula</a>. None of them, however, work reliably enough so that we can pipe many PDFs at once through the system and expect consistently solid results.</p>
+  </li>
+  <li>
+    <p><b>Convert images to text</b>:</p>
+
+    <p>It’s common for PDFs to have images. Sometimes, this is innocuous like an embedded png that supports the document text (like a diagram). Frequently it is not so simple like when entire pages are images. They might even <i>look</i> like normal pages but they can’t be selected, copied, or searched. Every audience hates this. Converting these images to their equivalent in text makes it much easier to access.</p>
+  </li>
+  <li>
+    <p><b>Translating the document</b>:</p>
+
+    <p>Translating a PDF means extracting the text into coherent “blobs” so that structures like paragraphs remain together and not split by line. It means then taking those blobs and translating them into a target language before reproducing the document as faithfully as possible. This is easy when done with HTML - the blobs are already together and the spacing is already determined - but is very difficult when the source document is as loose as a PDF. There, concepts like blobs just don’t exist on the right granularity. And so any effort to reliably reproduce the document is very hard.</p>
+  </li>
+</ul>
+
+<p>All of these are gritty problems that have existed for years without great solutions.</p>
+
+<p>Imagine if the PDF was instead an image. We are ignoring the instructions given in the PDF in favor of utilizing image processing software. This makes it quite easy to find and extract table positions but quite hard to extract non-romanic text. The former is just about looking for grid lines and can be done in Python with OpenCV. The latter needs OCR software. Outside of romanic text, open-source implementations are not very good [yet].</p>
+
+<p>But what if we could skip developing an OCR algorithm for every language? Instead, we train a model to understand how to generate images with html. We have a lot of data - every web page on the internet suffices. Step one would be to gather a lot of website htmls with their stylesheets. Then, munge the two together so that the stylesheets are inserted into the html. Now take images of the resulting page.</p>
+
+<p>The input to our model is the images and the output is the merged html. We train it to understand the how to produce the html from the image. It’s not clear to me that this would be advancing the frontier of research or need anything beyond what we have today. It <i>does</i> look like a very useful application that utilizes advances in understanding long-term memory dependencies.</p>
+
+<p>As a quick example of that, what if the entire page is just two columns? Then the resulting html could be a parent div with two child divs, each of which are fixed percentage width and floated left. The model has to learn that this large amount of information should all be in this one dom element. And if there is a white space separation some length down the page, then the model needs to grasp that.</p>
+
+<p>An amusing thought is to see what happens when you train it on different html structures. We could have a Bootstrap bot, a Shopify bot, and a Google bot that all strive to turn images into pages that look like how sites with those signature frameworks are displayed.</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          
+          <li>
+            <a href="https://github.com/cinjon">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">cinjon</span>
+            </a>
+          </li>
+          
+          <li><a href="mailto:cinjon@alum.mit.edu">cinjon@alum.mit.edu</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
