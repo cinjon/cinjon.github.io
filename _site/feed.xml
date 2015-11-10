@@ -6,45 +6,75 @@
 </description>
     <link>http://cinjon.com/</link>
     <atom:link href="http://cinjon.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 09 Nov 2015 15:00:05 -0500</pubDate>
-    <lastBuildDate>Mon, 09 Nov 2015 15:00:05 -0500</lastBuildDate>
+    <pubDate>Tue, 10 Nov 2015 17:52:23 -0500</pubDate>
+    <lastBuildDate>Tue, 10 Nov 2015 17:52:23 -0500</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
         <title>Making Html of Images</title>
         <description>&lt;p&gt;Here’s an idea.&lt;/p&gt;
 
-&lt;p&gt;Let’s say you have lots of PDFs and you want to manipulate them. Some example tasks:&lt;/p&gt;
+&lt;p&gt;Let’s say you want to manipulate lots of PDFs. Some tasks demonstrating what I mean:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;b&gt;Extract table data&lt;/b&gt;:&lt;/p&gt;
 
-    &lt;p&gt;PDFs frequently have tabular information. Sometimes, this is explicit where the tables are delineated with lines. Other times, it is implicit like in a table of contents. Regardless, it isn’t easy to get this information. There are a number of libraries that try. The best open source one I’ve found is &lt;a href=&quot;http://www.tabula.technology&quot;&gt;Tabula&lt;/a&gt;. None of them, however, work reliably enough so that we can pipe many PDFs at once through the system and expect consistently solid results.&lt;/p&gt;
+    &lt;p&gt;PDFs frequently have tabular information. These can be explicit or implicit (like a table of contents). Regardless, it isn’t easy to get this information. There are a number of libraries that try. The best open source one I’ve found is &lt;a href=&quot;http://www.tabula.technology&quot;&gt;Tabula&lt;/a&gt;. None of them, however, work reliably enough so that we can pipe many PDFs at once through the system and expect consistently solid results.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;b&gt;Convert images to text&lt;/b&gt;:&lt;/p&gt;
 
-    &lt;p&gt;It’s common for PDFs to have images. Sometimes, this is innocuous like an embedded png that supports the document text (like a diagram). Frequently it is not so simple like when entire pages are images. They might even &lt;i&gt;look&lt;/i&gt; like normal pages but they can’t be selected, copied, or searched. Every audience hates this. Converting these images to their equivalent in text makes it much easier to access.&lt;/p&gt;
+    &lt;p&gt;It’s common for PDFs to have images. This can be innocuous like an embedded diagram supporting the text. Frequently it is not so simple, like when entire pages are images. They might even &lt;i&gt;look&lt;/i&gt; normal, but they can’t be selected, copied, or searched. Every audience hates this. Converting these images to text makes them much more accessible.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;b&gt;Translating the document&lt;/b&gt;:&lt;/p&gt;
 
-    &lt;p&gt;Translating a PDF means extracting the text into coherent “blobs” so that structures like paragraphs remain together and not split by line. It means then taking those blobs and translating them into a target language before reproducing the document as faithfully as possible. This is easy when done with HTML - the blobs are already together and the spacing is already determined - but is very difficult when the source document is as loose as a PDF. There, concepts like blobs just don’t exist on the right granularity. And so any effort to reliably reproduce the document is very hard.&lt;/p&gt;
+    &lt;p&gt;To translate a PDF, you have to extract the text into coherent “blobs” so that structures like paragraphs remain together and aren’t split by line. Then translate each of those blobs into a target language before reproducing the document as faithfully as possible. This is easy with HTML - the blobs are already together - but is difficult when the source document is similar to a PDF. There, concepts like blobs don’t exist on the right granularity. And so reliably reproducing the document is very hard.&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;All of these are gritty problems that have existed for years without great solutions.&lt;/p&gt;
 
-&lt;p&gt;Imagine if the PDF was instead an image. We are ignoring the instructions given in the PDF in favor of utilizing image processing software. This makes it quite easy to find and extract table positions but quite hard to extract non-romanic text. The former is just about looking for grid lines and can be done in Python with OpenCV. The latter needs OCR software. Outside of romanic text, open-source implementations are not very good [yet].&lt;/p&gt;
+&lt;p&gt;Imagine if the PDF was instead an image. By doing that, we ignore the PDF format in favor of utilizing image processing software. This makes it easy to extract table positions because that’s just looking for grid lines with OpenCV. On the other hand, it’s hard to extract non-romanic text, which needs OCR software. There aren’t any good open-source implementations for that that I’m familiar with&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
-&lt;p&gt;But what if we could skip developing an OCR algorithm for every language? Instead, we train a model to understand how to generate images with html. We have a lot of data - every web page on the internet suffices. Step one would be to gather a lot of website htmls with their stylesheets. Then, munge the two together so that the stylesheets are inserted into the html. Now take images of the resulting page.&lt;/p&gt;
+&lt;p&gt;But what if we could skip developing an OCR algorithm for every language? Instead, train a model to generate html from images. Every web page on the internet is free data. Step one would be to gather a lot of website htmls with their stylesheets. Then, munge the two together so that the stylesheets are inserted into the html. Now take images of the resulting pages. Perturb a single page as much as you like to generate more data.&lt;/p&gt;
 
-&lt;p&gt;The input to our model is the images and the output is the merged html. We train it to understand the how to produce the html from the image. It’s not clear to me that this would be advancing the frontier of research or need anything beyond what we have today. It &lt;i&gt;does&lt;/i&gt; look like a very useful application that utilizes advances in understanding long-term memory dependencies.&lt;/p&gt;
+&lt;p&gt;The input to our model is the images and the output is the merged html. We train it to understand how to produce the html from the image&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. On the face of it, this looks like a very useful application that utilizes advances in understanding long-term memory dependencies and not much more. As a quick example of the memory dependencies, what if the entire page is just two columns? Then the resulting html could be a parent div with two child divs, each of which are fixed percentage width and floated left. The model has to learn that this large amount of information should all be in this one dom element. And if there is a white space separation some length down the page, then the model needs to grasp that.&lt;/p&gt;
 
-&lt;p&gt;As a quick example of that, what if the entire page is just two columns? Then the resulting html could be a parent div with two child divs, each of which are fixed percentage width and floated left. The model has to learn that this large amount of information should all be in this one dom element. And if there is a white space separation some length down the page, then the model needs to grasp that.&lt;/p&gt;
+&lt;p&gt;But then again, this might be much harder than it looks. For one thing, html representations are not unique. There are other ways to reproduce the two-column grid that I mentioned above. Another consideration is that you can’t really get anything wrong:&lt;/p&gt;
 
-&lt;p&gt;An amusing thought is to see what happens when you train it on different html structures. We could have a Bootstrap bot, a Shopify bot, and a Google bot that all strive to turn images into pages that look like how sites with those signature frameworks are displayed.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Misalign dom element clojures and your html won’t compile.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use a &lt;code&gt;&amp;lt;span&amp;gt;&lt;/code&gt; tag when you meant to use a &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt; tag and the widths will be off.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Fail to get the right number of cells for every row and the table is going to be wonky.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The list continues. So why use html? Why not output absolute positioned characters and lines? This is closer to the OCR route and wouldn’t depend on learning and remembering html over long sequences of text.&lt;/p&gt;
+
+&lt;p&gt;I have two answers. The first is that we have an unbounded amount of html training data. You can also easily perturb an html document in countless ways and produce a different image each time. The second answer is that this is much more expressive and powerful! A working solution would resolve each of the examples above. The same isn’t true for simpler approaches&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;So … &lt;i&gt;how&lt;/i&gt; hard is this? It might be harder than machine translation. In both cases, there isn’t an indempotent solution, the ordering matters a great deal, and the representations are different. Here, though, there is little credit for partial correctness - in MT, there is some. The length at which you have to remember dom elements is more than it is in sentence translation. And the representations may not even have the same embedding space. What I mean is that an English string and a German string can be reduced to approximately the same vector embedding. This is because they are closely related encodings of the same representation. Is that true of html describing a website and an image of the website?&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;The best one is still &lt;a href=&quot;&quot;&gt;Tesseract&lt;/a&gt;. One that I’m seeing gain steam is &lt;a href=&quot;&quot;&gt;Ocropy&lt;/a&gt;. If you know of any better, especially with open-source language packs, please do let me know! &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;An amusing thought is to see what happens when you train it on different html structures. We could have a Bootstrap bot, a Shopify bot, and a Google bot that all strive to turn images into pages that look like how sites with those signature frameworks are displayed. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;They also aren’t as elegant as the images -&amp;gt; html approach. That counts. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
 </description>
         <pubDate>Mon, 09 Nov 2015 00:00:00 -0500</pubDate>
         <link>http://cinjon.com/making-html-of-images</link>
@@ -300,7 +330,7 @@
 
 &lt;p&gt;Returning to chess, what is a way to test if someone understands the rules? If it was a kid, we’d ask her to explain how pieces move, how the game is set up, and what ends the game. Once we’d established that, we’d play a game or two to see if she understood everything in combination.&lt;/p&gt;
 
-&lt;p&gt;Is it sufficient to just play the game? No. That’s no different than writing a textbook by combining words in a correct grammatical structure. It’s very hard to train machines to do that correctly but we’re getting very good today at teaching computers to pull this off without them being able to teach the rules of grammar&lt;sup id=&quot;fnref:n&quot;&gt;&lt;a href=&quot;#fn:n&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;Is it sufficient to just play the game? No. That’s no different than writing a textbook by combining words in a correct grammatical structure. It’s very hard to train machines to do that correctly but we’re getting very good today at teaching computers to pull this off without them being able to teach the rules of grammar&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
 &lt;p&gt;There are tests that seem good but break down. One is to leave out some possibilities for pieces and see if the computer picks it up. Say it never sees a rook moving from its original space to the opposite end of its base. How would it know that it could do that? It would be strange to think that it couldn’t if it understood that rooks move in a horizontal fashion and can go up to any number of spaces. And yet it would be strange to think it &lt;em&gt;could&lt;/em&gt; do that given that it has no probabilistic basis for that move. It would be similar to saying that the rook can jump over another one. It happens often enough with another piece (the knight) that that might be in the space of possibilities.&lt;/p&gt;
 
@@ -312,8 +342,8 @@
 
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
-    &lt;li id=&quot;fn:n&quot;&gt;
-      &lt;p&gt;This is a non-trivial requirement on the machine. K-12 schools in America don’t even require that students know grammar well enough to teach it to others. They just need to pass tests that determine they grasp the faculties. These tests are often times multiple choice but also written. Training a computer to perform well on that is much easier than what I’m suggesting. &lt;a href=&quot;#fnref:n&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;This is a non-trivial requirement on the machine. K-12 schools in America don’t even require that students know grammar well enough to teach it to others. They just need to pass tests that determine they grasp the faculties. These tests are often times multiple choice but also written. Training a computer to perform well on that is much easier than what I’m suggesting. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;

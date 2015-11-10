@@ -17,7 +17,7 @@ What I'm prorposing is different. With the Atari games, the machine didn't have 
 
 Returning to chess, what is a way to test if someone understands the rules? If it was a kid, we'd ask her to explain how pieces move, how the game is set up, and what ends the game. Once we'd established that, we'd play a game or two to see if she understood everything in combination.
 
-Is it sufficient to just play the game? No. That's no different than writing a textbook by combining words in a correct grammatical structure. It's very hard to train machines to do that correctly but we're getting very good today at teaching computers to pull this off without them being able to teach the rules of grammar[^n].
+Is it sufficient to just play the game? No. That's no different than writing a textbook by combining words in a correct grammatical structure. It's very hard to train machines to do that correctly but we're getting very good today at teaching computers to pull this off without them being able to teach the rules of grammar[^1].
 
 There are tests that seem good but break down. One is to leave out some possibilities for pieces and see if the computer picks it up. Say it never sees a rook moving from its original space to the opposite end of its base. How would it know that it could do that? It would be strange to think that it couldn't if it understood that rooks move in a horizontal fashion and can go up to any number of spaces. And yet it would be strange to think it *could* do that given that it has no probabilistic basis for that move. It would be similar to saying that the rook can jump over another one. It happens often enough with another piece (the knight) that that might be in the space of possibilities.
 
@@ -27,4 +27,4 @@ I'd be much more interested in imbuing a system with some faculties for asking q
 
 That would be interesting.
 
-[^n]: This is a non-trivial requirement on the machine. K-12 schools in America don't even require that students know grammar well enough to teach it to others. They just need to pass tests that determine they grasp the faculties. These tests are often times multiple choice but also written. Training a computer to perform well on that is much easier than what I'm suggesting.
+[^1]: This is a non-trivial requirement on the machine. K-12 schools in America don't even require that students know grammar well enough to teach it to others. They just need to pass tests that determine they grasp the faculties. These tests are often times multiple choice but also written. Training a computer to perform well on that is much easier than what I'm suggesting.
