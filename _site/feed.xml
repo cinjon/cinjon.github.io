@@ -6,9 +6,32 @@
 </description>
     <link>http://cinjon.com/</link>
     <atom:link href="http://cinjon.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 10 Nov 2015 17:52:23 -0500</pubDate>
-    <lastBuildDate>Tue, 10 Nov 2015 17:52:23 -0500</lastBuildDate>
+    <pubDate>Thu, 12 Nov 2015 17:47:16 -0500</pubDate>
+    <lastBuildDate>Thu, 12 Nov 2015 17:47:16 -0500</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Install TensorFlow on AWS GPU</title>
+        <description>&lt;p&gt;&lt;a href=&quot;http://tensorflow.org/&quot;&gt;TensorFlow&lt;/a&gt; is a new and sweet package out of Google for Deep Learning.&lt;/p&gt;
+
+&lt;p&gt;There has been a lot of talk on github about how to get it to run on AWS. I just went through the hassle today and in the interest of not having others endure the same, here’s an AMI ID on AWS with it built and ready to go: ami-03512969&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;It looks like &lt;a href=&quot;https://gist.github.com/erikbern&quot;&gt;erikbern&lt;/a&gt; also posted his solution on github. He included the install script as well. You can find it &lt;a href=&quot;https://gist.github.com/erikbern/78ba519b97b440e10640&quot;&gt;here&lt;/a&gt;. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Thu, 12 Nov 2015 00:00:00 -0500</pubDate>
+        <link>http://cinjon.com/install-tensorflow-aws-gpu</link>
+        <guid isPermaLink="true">http://cinjon.com/install-tensorflow-aws-gpu</guid>
+        
+        <category>tensorflow,aws</category>
+        
+        
+      </item>
     
       <item>
         <title>Making Html of Images</title>
