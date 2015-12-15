@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unsupervised and Multimodal NLP Papers
+title: Unsupervised and Multimodal Seq2Seq
 permalink: papers-multimodal-seq2seq
 tags: papers
 ---
