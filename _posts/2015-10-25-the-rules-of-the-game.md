@@ -2,7 +2,7 @@
 layout: post
 title: The Rules of the Game
 permalink: the-rules-of-the-game
-tags: ai,rules,grammer
+tags: ai,rules,grammar
 ---
 
 Here's an idea.
