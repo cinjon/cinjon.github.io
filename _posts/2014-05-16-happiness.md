@@ -1,7 +1,7 @@
 ---
 layout: post
-title: On Happiness
-permalink: on-happiness
+title: Berlin
+permalink: berlin
 tags: berlin
 ---
 
