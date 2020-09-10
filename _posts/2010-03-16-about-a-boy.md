@@ -2,6 +2,7 @@
 layout: post
 title: About a Boy
 permalink: about-a-boy
+blurb: "He meets a girl. She’s not just any girl but … what are words when there is first love?"
 tags: mit,life
 ---
 

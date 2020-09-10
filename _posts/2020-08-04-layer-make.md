@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Layer Make
+blurb: "The real novelty, though, is that this uncovers a different way of handling media where people push their video as source material instead of maintaining ownership. Your video is only as useful as the final form and everyone in the creation chain gets rewarded."
 permalink: layer-make
 tags: product
 ---

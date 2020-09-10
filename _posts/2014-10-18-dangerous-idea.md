@@ -2,6 +2,7 @@
 layout: post
 title: Clarity
 permalink: clarity
+blurb: "From time spent with no people input."
 tags: nature
 ---
 

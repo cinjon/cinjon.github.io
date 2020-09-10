@@ -2,6 +2,7 @@
 layout: post
 title: Berlin
 permalink: berlin
+blurb: "Frederika, planting palm trees, and the moment before you want more."
 tags: berlin
 ---
 

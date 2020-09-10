@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Game Theory & Dynamics
+blurb: "Motivated by the Alpha-Rank and Open-Ended Learning papers from DeepMind, what are research directions left unfinished in the past that are ripe for exploring today?"
 permalink: game-theory-compilation
 tags: research
 ---

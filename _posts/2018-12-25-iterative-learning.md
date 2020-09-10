@@ -2,6 +2,7 @@
 layout: post
 title: Iterative Unsupervised Learning
 permalink: iterative-unsupervised-learning
+blurb: "Hypothesis: can we build unsupervised models with axes of variation that we care about through an iterative approach that incorporates a human in the loop?"
 tags: hypothesis
 ---
 

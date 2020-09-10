@@ -2,6 +2,7 @@
 layout: post
 title: Space of Motion
 permalink: space-of-motion
+blurb: "Hypothesis: How can we learn to differentiate an amateur handstand from an expert handstand with the insight being that all expert handstands look similar but all amateur handstands are dissimilar due to a small number of categorical errors?"
 tags: hypothesis,video
 ---
 
