@@ -2,7 +2,7 @@
 layout: post
 title: Space and A(ugmented)R(eality)t
 permalink: space-and-art
-blurb: "He meets a girl. She’s not just any girl but … what are words when there is first love?"
+blurb: "Street art, augmented reality, and the resonance of spatial constraints - what would happen if every mural was interactive, was alive?"
 tags: mit,life
 ---
 
