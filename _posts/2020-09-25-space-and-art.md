@@ -127,3 +127,7 @@ I haven't spoken to enough curators to know if museums want this. However, I'm i
 {% include googleDrivePlayer.html id="1cLs6Yr6N4m-RVLN1v6n35xN27Bzi_Gax/preview" description="Aristotle with a Bust of Homer by Rembrandt. Speaking the same James Baldwin line to demonstrate changing just the character and not the audio." %}
 
 {% include googleDrivePlayer.html id="1XVtfOcU2jmbwDjTnf9pRJU_PnWo0PF9b/preview" description='Portrait of Antoine-Laurent Lavoisier and his Wife, by Jacque Louis David. Speaking a line from Lavoisier: "I consider nature a vast chemical laboratory in which all kinds of composition and decompositions are formed."' %}
+
+## Acknowledgements
+
+Much appreciation to Michael McCanna, Adam Bouhenguel, Dino Mihalopoulos, Yiren Lu, and Lucy Mort for discussions and feedback on this post.
