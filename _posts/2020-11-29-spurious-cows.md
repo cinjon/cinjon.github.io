@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Spurious Cows
-blurb: "The real novelty, though, is that this uncovers a different way of handling media where people push their video as source material instead of maintaining ownership. Your video is only as useful as the final form and everyone in the creation chain gets rewarded."
+blurb: "Can we fix a spurious correlation by collecting counter examples and fine-tuning on them?"
 permalink: spurious-cows
 tags: research
 ---
